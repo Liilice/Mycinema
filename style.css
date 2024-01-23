@@ -1,0 +1,123 @@
+/* LES BASES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary: #8e44ad;
+  --dark: #2c3e50;
+  --background-light: #ecf0f1;
+  --text-color: #444;
+  --text-color-light: #fff;
+  --box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  --border: 1px solid #eee;
+  --danger: #e74c3c;
+  font-size: 62.5%;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+p {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+}
+ul {
+  list-style: none;
+}
+li {
+  font-size: 1.6rem;
+}
+a {
+  text-decoration: none;
+  /* font-size: 1.6rem; */
+  color: var(--dark);
+}
+img {
+  max-width: 100%;
+  height: auto;
+  padding-right: 1.5rem;
+}
+form {
+  margin: 1rem 0rem 2rem 0rem;
+}
+.containerLink {
+  display: flex;
+  flex-direction: row;
+}
+.containerLink h2 a {
+  margin: 0rem 4rem;
+}
+.container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100rem;
+  padding: 1rem;
+}
+.li {
+  border: 1px solid gray;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+.d {
+  justify-content: space-between;
+}
+.containerMember {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 100rem;
+  padding: 1rem;
+}
+.containerHisto {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btn {
+  background-color: white;
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 1.6rem;
+  border: 0;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 5px;
+  box-shadow: var(--box-shadow);
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text-color-light);
+}
+.btn-danger {
+  background-color: var(--danger);
+  color: var(--text-color-light);
+  cursor: pointer;
+}
+span {
+  margin-right: 15rem;
+}
