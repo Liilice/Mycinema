@@ -14,4 +14,4 @@
         $statementDeletePrincipal = $pdo->prepare("DELETE FROM membership WHERE id_user = $id");
         $statementDeletePrincipal->execute();
     }
-    header('Location: abonnement.php');
+    header('Location: index.php');

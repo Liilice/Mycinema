@@ -32,9 +32,8 @@
                 }
                 $statementAddAbonnee = $pdo->prepare("INSERT INTO membership(id_user, id_subscription, date_begin) VALUES ($id, $name, NOW())");
                 $statementAddAbonnee->execute();
-                header('Location: abonnement.php');
+                header('Location: successful.php');
             }
-
         }else{
             header('Location: member.php');
         }
@@ -45,22 +44,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST">
+    <form action="" method="POST" class="CRUD">
         <?php foreach($resultatUser as $key => $value):?>
-            <p>Nom Prénom: <?=$value["lastname"]. " ".$value["firstname"]?></p>
-            <p>Email: <?=$value["email"]?></p>
+            <div class="labelP">
+                <label for="">Nom Prénom: </label>
+                <p><?=$value["lastname"]. " ".$value["firstname"]?></p>
+            </div>
+            <div class="labelP">
+                <label for="">Email: </label>
+                <p><?=$value["email"]?></p>
+            </div>
         <?php endforeach; ?>
-        <label for="subscription">Selectionner un abonnement</label>
-        <select name="subscription" id="subscription">
-            <?php foreach($resultat as $key => $value):?>
-            <?php foreach($value as $key2 => $value2):?>
-                <option value="<?=$value2?>"><?=$value2?></option>
-            <?php endforeach; ?>
-            <?php endforeach; ?>
-        </select>
+        <div class="labelP">
+            <label for="subscription">Selectionner un abonnement</label>
+            <select name="subscription" id="subscription">
+                <?php foreach($resultat as $key => $value):?>
+                <?php foreach($value as $key2 => $value2):?>
+                    <option value="<?=$value2?>"><?=$value2?></option>
+                <?php endforeach; ?>
+                <?php endforeach; ?>
+            </select>
+        </div>
         <button type="submit" class="btn">S'abonner</button>
     </form>
 </body>

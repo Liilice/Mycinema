@@ -8,9 +8,9 @@
         $statement = $pdo->prepare("SELECT id, title FROM movie WHERE title LIKE '%$films%'");
         $statement->execute();
         $resultatFiltre = $statement->fetchAll(PDO::FETCH_ASSOC);
-        echo '<pre>';
-        print_r($resultatFiltre);
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($resultatFiltre);
+        // echo '</pre>';
     }
 ?>
 <!DOCTYPE html>

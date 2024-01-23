@@ -51,6 +51,7 @@ a {
   /* font-size: 1.6rem; */
   color: var(--dark);
 }
+
 img {
   max-width: 100%;
   height: auto;
@@ -120,4 +121,65 @@ form {
 }
 span {
   margin-right: 15rem;
+}
+.labelInput {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+input {
+  width: 25rem;
+}
+select {
+  width: 25rem;
+}
+label {
+  font-size: 1.5rem;
+  margin-right: 3rem;
+  width: 15rem;
+}
+.labelP {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.CRUD {
+  border: 1px solid black;
+  padding: 2rem;
+  position: absolute;
+  bottom: 45%;
+}
+.CRUD button {
+  margin-top: 2rem;
+}
+.main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.succes {
+  width: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 1rem;
+  padding: 3rem 1rem;
+}
+.succes i {
+  font-size: 10rem;
+  color: #2ecc71;
+}
+.succes h1 {
+  color: var(--dark);
+  margin: 2rem 0rem 1rem 0rem;
+}
+.succes button {
+  margin: 2rem 0rem 1rem 0rem;
+  background-color: #2ecc71;
+  color: var(--text-color-light);
 }

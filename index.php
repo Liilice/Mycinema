@@ -27,6 +27,24 @@
         $search = $_POST['genre'] && $_POST['genre']!=="defaut" ? $_POST['genre']: '';
         $distributor = $_POST['distributor'] ? $_POST['distributor'] : '';
         $rechercher = $_POST['rechercher'] ? $_POST['rechercher'] : '';
+
+        $currentPage = (int)($_GET["page"]??1);
+        $count = (int)$pdo->query("
+            SELECT COUNT('title') FROM distributor 
+            JOIN movie ON distributor.id = movie.id_distributor 
+            JOIN movie_genre ON movie.id = movie_genre.id_movie 
+            JOIN genre ON movie_genre.id_genre = genre.id 
+            WHERE genre.name LIKE '%$search%' 
+            AND movie.title LIKE '%$rechercher%' 
+            AND distributor.name LIKE '%$distributor%';")->fetch(PDO::FETCH_NUM)[0];
+        $parPage = 20;
+        $pages = ceil($count/$parPage);
+        if($currentPage > $pages || $currentPage <= 0){
+            throw new Exception("Page invalide");
+        }
+        echo($count);
+        $offset = $parPage * ($currentPage-1);
+
         $statement = $pdo->prepare("
             SELECT movie.title, genre.name, distributor.name FROM distributor 
             JOIN movie ON distributor.id = movie.id_distributor 
@@ -34,9 +52,11 @@
             JOIN genre ON movie_genre.id_genre = genre.id 
             WHERE genre.name LIKE '%$search%' 
             AND movie.title LIKE '%$rechercher%' 
-            AND distributor.name LIKE '%$distributor%';");
+            AND distributor.name LIKE '%$distributor%'
+            LIMIT $parPage OFFSET $offset;");
         $statement->execute();
         $resultatFiltre = $statement->fetchAll();
+
         // echo '<pre>';
         // print_r($resultatFiltre);
         // echo '</pre>';

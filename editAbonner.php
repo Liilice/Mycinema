@@ -31,7 +31,7 @@
         echo $name;
         $statementModif = $pdo->prepare("UPDATE membership SET id_subscription = $name WHERE id_user = $id");
         $statementModif->execute();
-        header('Location: abonnement.php');
+        header('Location: successful.php');
     }
 ?>
 <!DOCTYPE html>
@@ -39,24 +39,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST">
+    <form action="" method="POST" class="CRUD">
         <?php foreach($resultatFiltre as $key => $value):?>
-            <p>Nom Prénom: <?=$value["lastname"]. " ".$value["firstname"]?></p>
-            <p>Email: <?=$value["email"]?></p>
-            <p>Subcription Actuel: <?=$value["name"]?></p>
+            <div class="labelP">
+                <label for="">Nom Prénom: </label>
+                <p><?=$value["lastname"]. " ".$value["firstname"]?></p>
+            </div>
+            <div class="labelP">
+                <label for="">Email: </label>
+                <p><?=$value["email"]?></p>
+            </div>
+            <div class="labelP">
+                <label for="">Subcription Actuel: </label>
+                <p><?=$value["name"]?></p>
+            </div>
         <?php endforeach; ?>
-        <label for="subscription">Modifier par</label>
-        <select name="subscription" id="subscription">
-            <?php foreach($resultat as $key => $value):?>
-            <?php foreach($value as $key2 => $value2):?>
-                <option value="<?=$value2?>"><?=$value2?></option>
-            <?php endforeach; ?>
-            <?php endforeach; ?>
-        </select>
+        <div class="labelP">
+            <label for="subscription">Modifier par</label>
+            <select name="subscription" id="subscription">
+                <?php foreach($resultat as $key => $value):?>
+                <?php foreach($value as $key2 => $value2):?>
+                    <option value="<?=$value2?>"><?=$value2?></option>
+                <?php endforeach; ?>
+                <?php endforeach; ?>
+            </select>
+        </div>
         <button type="submit" class="btn">Modifier</button>
-        </form>
+    </form>
 </body>
 </html>
