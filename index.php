@@ -18,49 +18,29 @@
     //     // print_r($resultatFiltre);
     //     // echo '</pre>';
     // }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $_POST = filter_input_array(INPUT_POST, [
-            'genre' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'rechercher' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'distributor' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]);
-        $search = $_POST['genre'] && $_POST['genre']!=="defaut" ? $_POST['genre']: '';
-        $distributor = $_POST['distributor'] ? $_POST['distributor'] : '';
-        $rechercher = $_POST['rechercher'] ? $_POST['rechercher'] : '';
+    $search = $_GET['genre'] && $_GET['genre']!=="defaut" ? $_GET['genre']: '';
+    $distributor = $_GET['distributor'] ? $_GET['distributor'] : '';
+    $rechercher = $_GET['rechercher'] ? $_GET['rechercher'] : '';
 
-        $currentPage = (int)($_GET["page"]??1);
-        $count = (int)$pdo->query("
-            SELECT COUNT('title') FROM distributor 
-            JOIN movie ON distributor.id = movie.id_distributor 
-            JOIN movie_genre ON movie.id = movie_genre.id_movie 
-            JOIN genre ON movie_genre.id_genre = genre.id 
-            WHERE genre.name LIKE '%$search%' 
-            AND movie.title LIKE '%$rechercher%' 
-            AND distributor.name LIKE '%$distributor%';")->fetch(PDO::FETCH_NUM)[0];
-        $parPage = 20;
-        $pages = ceil($count/$parPage);
-        if($currentPage > $pages || $currentPage <= 0){
-            throw new Exception("Page invalide");
-        }
-        echo($count);
-        $offset = $parPage * ($currentPage-1);
+    $parPage = 15;
+    $page = $_GET["page"] ? $_GET["page"] : 1;
+    $start = ($page - 1)*$parPage;
 
-        $statement = $pdo->prepare("
-            SELECT movie.title, genre.name, distributor.name FROM distributor 
-            JOIN movie ON distributor.id = movie.id_distributor 
-            JOIN movie_genre ON movie.id = movie_genre.id_movie 
-            JOIN genre ON movie_genre.id_genre = genre.id 
-            WHERE genre.name LIKE '%$search%' 
-            AND movie.title LIKE '%$rechercher%' 
-            AND distributor.name LIKE '%$distributor%'
-            LIMIT $parPage OFFSET $offset;");
-        $statement->execute();
-        $resultatFiltre = $statement->fetchAll();
+    $count = $pdo->query("SELECT COUNT(*) FROM distributor JOIN movie ON distributor.id = movie.id_distributor JOIN movie_genre ON movie.id = movie_genre.id_movie JOIN genre ON movie_genre.id_genre = genre.id WHERE genre.name LIKE '%$search%' AND movie.title LIKE '%$rechercher%' AND distributor.name LIKE '%$distributor%';");
+    $totalCount = $count->fetchAll()[0][0];
 
-        // echo '<pre>';
-        // print_r($resultatFiltre);
-        // echo '</pre>';
-        } 
+    $pages = ceil($totalCount / $parPage);
+
+    $statement = $pdo->prepare("
+        SELECT movie.title, genre.name, distributor.name FROM distributor 
+        JOIN movie ON distributor.id = movie.id_distributor 
+        JOIN movie_genre ON movie.id = movie_genre.id_movie 
+        JOIN genre ON movie_genre.id_genre = genre.id 
+        WHERE genre.name LIKE '%$search%' 
+        AND movie.title LIKE '%$rechercher%' 
+        AND distributor.name LIKE '%$distributor%' LIMIT $start, $parPage;");
+    $statement->execute();
+    $resultatFiltre = $statement->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,8 +58,8 @@
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>
     </div>
-    <form action="" method="POST">
-        <input type="text" placeholder="rechercher" name="rechercher">
+    <form action="" method="get">
+        <input type="search" placeholder="rechercher" name="rechercher">
         <select name="genre" id="genre">
             <option value="defaut">Defaut</option>
             <?php foreach($resultat as $key => $value):?>
@@ -88,35 +68,46 @@
             <?php endforeach; ?>
             <?php endforeach; ?>
         </select>
-        <input type="text" name="distributor" placeholder="distributor">
-        <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" />
-        <button type="submit">Rechercher</button>
+        <input type="search" name="distributor" placeholder="distributor">
+        <!-- <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" /> -->
+        <input type="submit" />
     </form>
-    <main class="container">
-        <div>
-            <h2>Titre</h2>
-            <ul>
-                <?php foreach($resultatFiltre as $key => $value):?>
-                    <li class="li"><?=$value["title"]?></li>
-                <?php endforeach; ?>
-            </ul>
+        <main class="container">
+            <div>
+                <h2>Titre</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value["title"]?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div>
+                <h2>Genre</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value[1]?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div>
+                <h2>Distributor</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value["name"]?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </main>
+        <div id="pagination">
+            <?php for($i = 1; $i <= $pages; $i++):?>
+                <?php if($_GET["rechercher"]||$_GET["search"]||$_GET["distributor"]):?>
+                    <?php $url = "?rechercher=".$rechercher."&genre=".$search."&distributor=".$distributor."&page=".$i?> 
+                <?php else:?>
+                    <?php $url = "?page=".$i;?>
+                <?php endif; ?>
+                <?php $stylePagination = ($i==$page)?"active":"";?>
+                <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+            <?php endfor;?>
         </div>
-        <div>
-            <h2>Genre</h2>
-            <ul>
-                <?php foreach($resultatFiltre as $key => $value):?>
-                    <li class="li"><?=$value[1]?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div>
-            <h2>Distributor</h2>
-            <ul>
-                <?php foreach($resultatFiltre as $key => $value):?>
-                    <li class="li"><?=$value["name"]?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </main>
 </body>
 </html>
