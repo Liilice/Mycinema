@@ -1,19 +1,20 @@
 <?php 
     $pdo = require_once("database.php");
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $_POST = filter_input_array(INPUT_POST, [
-            'member' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'historiqMember' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]);
-        $member = $_POST['member'];
-        if(isset($member) && $member !== ""){
-            $statement = $pdo->prepare("
-                SELECT firstname, lastname, id FROM user 
-                WHERE firstname LIKE '%$member%' OR lastname LIKE '%$member%';");
-            $statement->execute();
-            $resultatFiltre = $statement->fetchAll();
-        }
-    } 
+    $member = $_GET['member'];
+    $parPage = 5;
+    $page = $_GET["page"] ? $_GET["page"] : 1;
+    $start = ($page - 1)*$parPage;
+    if(isset($_GET['member'])&&$_GET['member']!==""){
+        $count = $pdo->query("SELECT COUNT(*) AS id FROM user WHERE firstname LIKE '%$member%' OR lastname LIKE '%$member%';");
+        $totalCountMember = $count->fetchAll()[0][0];
+        $pages = ceil($totalCountMember / $parPage);
+        $statement = $pdo->prepare("
+            SELECT firstname, lastname, id FROM user 
+            WHERE firstname LIKE '%$member%' OR lastname LIKE '%$member%' LIMIT $start, $parPage;");
+        $statement->execute();
+        $resultatFiltre = $statement->fetchAll();
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -32,10 +33,10 @@
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>
     </div>
-    <form action="" method="POST">
-        <input type="text" name="member" placeholder="member">
+    <form action="" method="get">
+        <input type="search" name="member" placeholder="member">
         <!-- <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" /> -->
-        <button type="submit">Rechercher</button>
+        <input type="submit" hidden />
     </form>
     <main class="containerMember">
         <div>
@@ -52,5 +53,14 @@
             </ul>
         </div>
     </main>
+    <div id="pagination">
+        <?php for($i = 1; $i <= $pages; $i++):?>
+            <?php if(!empty($_GET["member"])):?>
+                <?php $url = "?member=".$member."&page=".$i?> 
+            <?php endif; ?>
+            <?php $henry = ($i==$page)?"active":"";?>
+            <a href="<?=$url?>" class="<?=$henry?>"><?=$i?></a>
+        <?php endfor;?>
+    </div>
 </body>
 </html>
