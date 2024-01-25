@@ -1,22 +1,46 @@
 <?php 
     $pdo = require_once("database.php");
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $_POST = filter_input_array(INPUT_POST, [
-            'abonner' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]);
-        $abonner = $_POST['abonner'];
-        if(isset($abonner) && $abonner !== ""){
-            $statement = $pdo->prepare("
-                SELECT user.firstname, user.lastname, user.id, subscription.name FROM user 
-                JOIN membership ON user.id = membership.id_user 
-                JOIN subscription ON membership.id_subscription = subscription.id
-                WHERE user.firstname LIKE '%$abonner%' OR user.lastname LIKE '%$abonner%';");
-            $statement->execute();
-            $resultatFiltre = $statement->fetchAll(PDO::FETCH_ASSOC);
-        }
+
+    $abonner = $_GET['abonner'];
+    $parPage = 5;
+    $page = $_GET["page"] ? $_GET["page"] : 1;
+    $start = ($page - 1)*$parPage;
+
+    if(isset($abonner) && $abonner !== ""){
+        $countAbonner = $pdo->query("
+            SELECT COUNT(user.id) FROM user 
+            JOIN membership ON user.id = membership.id_user 
+            JOIN subscription ON membership.id_subscription = subscription.id
+            WHERE user.firstname LIKE '%$abonner%' OR user.lastname LIKE '%$abonner%';");
+        $totalCountAbonner = $countAbonner->fetchAll()[0][0];
+        $pages = ceil($totalCountAbonner / $parPage);
+
+        $statement = $pdo->prepare("
+            SELECT user.firstname, user.lastname, user.id, subscription.name FROM user 
+            JOIN membership ON user.id = membership.id_user 
+            JOIN subscription ON membership.id_subscription = subscription.id
+            WHERE user.firstname LIKE '%$abonner%' OR user.lastname LIKE '%$abonner%'
+            LIMIT $start, $parPage;");
+        $statement->execute();
+        $resultatFiltre = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    $id = $_GET['id'];
+
+    $limitPage = 10;
+    // $currentPage = $_GET["page"] ? $_GET["page"] : 1;
+    // $debut = ($page - 1)*$parPage;
+    $id = $_GET['id']; 
     if(isset($id) && $id !== ""){
+        $countAbonnerHistoriq = $pdo->query("
+            SELECT COUNT(*) FROM user 
+            JOIN membership ON user.id = membership.id_user 
+            JOIN subscription ON membership.id_subscription = subscription.id 
+            JOIN membership_log ON membership.id = membership_log.id_membership 
+            JOIN movie_schedule ON membership_log.id_session = movie_schedule.id 
+            JOIN movie ON movie_schedule.id_movie = movie.id
+            WHERE user.id = $id;");
+        $totalCountAbonnerHistoriq = $countAbonnerHistoriq->fetchAll()[0][0];
+        $pages = ceil($totalCountAbonnerHistoriq / $limitPage );
+
         $statementhistoriqMember = $pdo->prepare("
             SELECT user.firstname, user.lastname, user.email, subscription.name, movie.title FROM user 
             JOIN membership ON user.id = membership.id_user 
@@ -24,7 +48,8 @@
             JOIN membership_log ON membership.id = membership_log.id_membership 
             JOIN movie_schedule ON membership_log.id_session = movie_schedule.id 
             JOIN movie ON movie_schedule.id_movie = movie.id
-            WHERE user.id = $id;");
+            WHERE user.id = $id
+            LIMIT $start, $limitPage;");
         $statementhistoriqMember->execute();
         $resultatFiltreHistorique = $statementhistoriqMember->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -46,9 +71,9 @@
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>
     </div>
-    <form action="" method="POST">
-        <input type="text" name="abonner" placeholder="abonner">
-        <button type="submit">Rechercher</button>
+    <form action="" method="get">
+        <input type="search" name="abonner" placeholder="abonner">
+        <input type="submit" hidden />
     </form>
     <main class="containerMember">
         <div>
@@ -70,6 +95,15 @@
                         </li>
                     <?php endforeach; ?>
                 </ul>
+            </div>
+            <div id="pagination">
+                <?php for($i = 1; $i <= $pages; $i++):?>
+                    <?php if(!empty($_GET["abonner"])):?>
+                        <?php $url = "?abonner=".$abonner."&page=".$i?> 
+                    <?php endif; ?>
+                    <?php $stylePagination = ($i==$page)?"active":"";?>
+                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                <?php endfor;?>
             </div>
         </div>
         <div>
@@ -99,6 +133,15 @@
                         <li class="li"><?=$value["title"]?></li>
                     <?php endforeach; ?>
                 </ul>
+            </div>
+            <div id="pagination">
+                <?php for($i = 1; $i <= $pages; $i++):?>
+                    <?php if($_GET["id"]):?>
+                        <?php $url = "?id=".$_GET["id"]."&page=".$i?> 
+                    <?php endif; ?>
+                    <?php $stylePagination = ($i==$page)?"active":"";?>
+                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                <?php endfor;?>
             </div>
         </div>
     </main>
