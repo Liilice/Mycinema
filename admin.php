@@ -1,17 +1,20 @@
 <?php
     $pdo = require_once("database.php");
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $_POST = filter_input_array(INPUT_POST, [
-            'films' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]);
-        $films = $_POST['films'] ? $_POST['films'] : '';
-        $statement = $pdo->prepare("SELECT id, title FROM movie WHERE title LIKE '%$films%'");
+    $films = $_GET['films'];
+    $parPage = 5;
+    $page = $_GET["page"] ? $_GET["page"] : 1;
+    $start = ($page - 1)*$parPage;
+
+    if(isset($films) && $films !== ""){
+        $count = $pdo->query("SELECT COUNT(*) FROM movie WHERE title LIKE '%$films%';");
+        $totalCount = $count->fetchAll()[0][0];
+        $pages = ceil($totalCount / $parPage);
+
+        $statement = $pdo->prepare("SELECT id, title FROM movie WHERE title LIKE '%$films%' LIMIT $start, $parPage");
         $statement->execute();
         $resultatFiltre = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // echo '<pre>';
-        // print_r($resultatFiltre);
-        // echo '</pre>';
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,9 +32,9 @@
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>
     </div>
-    <form action="" method="POST">
-        <input type="text" name="films" placeholder="films">
-        <button type="submit">Rechercher</button>
+    <form action="" method="get">
+        <input type="search" name="films" placeholder="films">
+        <input type="submit" hidden />
     </form>
     <main class="containerMember">
         <div>
@@ -46,6 +49,15 @@
                     </li>
                 <?php endforeach; ?>
             </ul>
+            <div id="pagination">
+                <?php for($i = 1; $i <= $pages; $i++):?>
+                    <?php if(!empty($_GET["films"])):?>
+                        <?php $url = "?films=".$films."&page=".$i?> 
+                    <?php endif; ?>
+                    <?php $stylePagination = ($i==$page)?"active":"";?>
+                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                <?php endfor;?>
+            </div>
         </div>
     </main>
 </body>
