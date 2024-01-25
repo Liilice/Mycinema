@@ -70,10 +70,14 @@ form {
 .container {
   border: 1px solid black;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100rem;
   padding: 1rem;
+}
+.containerIndex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .li {
   border: 1px solid gray;
@@ -182,4 +186,6 @@ label {
   margin: 2rem 0rem 1rem 0rem;
   background-color: #2ecc71;
   color: var(--text-color-light);
+}
+.stylePagination {
 }
