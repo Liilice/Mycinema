@@ -58,8 +58,8 @@
             <?php if(!empty($_GET["member"])):?>
                 <?php $url = "?member=".$member."&page=".$i?> 
             <?php endif; ?>
-            <?php $henry = ($i==$page)?"active":"";?>
-            <a href="<?=$url?>" class="<?=$henry?>"><?=$i?></a>
+            <?php $stylePagination = ($i==$page)?"active":"";?>
+            <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
         <?php endfor;?>
     </div>
 </body>
