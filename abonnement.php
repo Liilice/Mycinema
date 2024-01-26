@@ -26,6 +26,8 @@
     }
 
     $limitPage = 10;
+    $pageHisto = $_GET["pageHisto"] ? $_GET["pageHisto"] : 1;
+    $debut = ($pageHisto - 1)*$limitPage;
     $id = $_GET['id']; 
     if(isset($id) && $id !== ""){
         $countAbonnerHistoriq = $pdo->query("
@@ -37,7 +39,7 @@
             JOIN movie ON movie_schedule.id_movie = movie.id
             WHERE user.id = $id;");
         $totalCountAbonnerHistoriq = $countAbonnerHistoriq->fetchAll()[0][0];
-        $pages = ceil($totalCountAbonnerHistoriq / $limitPage );
+        $pagess = ceil($totalCountAbonnerHistoriq / $limitPage );
 
         $statementhistoriqMember = $pdo->prepare("
             SELECT user.firstname, user.lastname, user.email, subscription.name, movie.title FROM user 
@@ -47,7 +49,7 @@
             JOIN movie_schedule ON membership_log.id_session = movie_schedule.id 
             JOIN movie ON movie_schedule.id_movie = movie.id
             WHERE user.id = $id
-            LIMIT $start, $limitPage;");
+            LIMIT $debut, $limitPage;");
         $statementhistoriqMember->execute();
         $resultatFiltreHistorique = $statementhistoriqMember->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -65,6 +67,7 @@
     <h1>My Cinema - Site de référencement des abonnements</h1>
     <div class="containerLink">
         <h2><a href="index.php">Films</a></h2>
+        <h2><a href="projection.php">Projection</a></h2>
         <h2><a href="member.php">Clients</a></h2>
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>
@@ -136,11 +139,11 @@
                 </ul>
             </div>
             <div class="pagination">
-                <?php for($i = 1; $i <= $pages; $i++):?>
+                <?php for($i = 1; $i <= $pagess; $i++):?>
                     <?php if($_GET["id"]):?>
-                        <?php $url = "?id=".$_GET["id"]."&page=".$i?> 
+                        <?php $url = "?id=".$_GET["id"]."&pageHisto=".$i?> 
                     <?php endif; ?>
-                    <a href="<?=$url?>" class="<?=($i==$page)?"active":""?>"><?=$i?></a>
+                    <a href="<?=$url?>" class="<?=($i==$pageHisto)?"active":""?>"><?=$i?></a>
                 <?php endfor;?>
             </div>
         </div>

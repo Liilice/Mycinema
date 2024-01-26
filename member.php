@@ -29,6 +29,7 @@
     <h1>My Cinema - Site de référencement des clients</h1>
     <div class="containerLink">
         <h2><a href="index.php">Films</a></h2>
+        <h2><a href="projection.php">Projection</a></h2>
         <h2><a href="member.php">Clients</a></h2>
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>

@@ -4,20 +4,6 @@
     $statementGenre->execute();
     $resultat = $statementGenre->fetchAll(PDO::FETCH_ASSOC); 
 
-    // $dateProjection = $_POST['dateProjection'];
-    // $dateProjectionReformater = str_replace("T", " ", $dateProjection);
-    // echo $dateProjectionReformater;
-
-    // if($dateProjection){
-    //     // recuperer tout les films par date de pprojection
-    //     $statement = $pdo->prepare("SELECT movie.title, movie_schedule.date_begin FROM movie JOIN movie_schedule ON movie.id = movie_schedule.id_movie WHere movie_schedule.date_begin LIKE '$dateProjection%';");
-    //     $statement->execute();
-    //     $resultatFiltre = $statement->fetchAll(PDO::FETCH_ASSOC);
-    //     // AJOUTER UNE RECHERCHE AVEC LHEURE AUSSI
-    //     // echo '<pre>';
-    //     // print_r($resultatFiltre);
-    //     // echo '</pre>';
-    // }
     $search = $_GET['genre'] && $_GET['genre']!=="defaut" ? $_GET['genre']: '';
     $distributor = $_GET['distributor'] ? $_GET['distributor'] : '';
     $rechercher = $_GET['rechercher'] ? $_GET['rechercher'] : '';
@@ -54,6 +40,7 @@
     <h1>My Cinema - Site de référencement des films</h1>
     <div class="containerLink">
         <h2><a href="index.php">Films</a></h2>
+        <h2><a href="projection.php">Projection</a></h2>
         <h2><a href="member.php">Clients</a></h2>
         <h2><a href="abonnement.php">Abonnement</a></h2>
         <h2><a href="admin.php">Admin</a></h2>

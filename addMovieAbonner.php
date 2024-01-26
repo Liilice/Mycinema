@@ -38,10 +38,6 @@
             // print_r($resultatMovieSchedule);
             // echo '</pre>';
         }
-        
-        // $statementAddAbonnee = $pdo->prepare("INSERT INTO membership(id_user, id_subscription, date_begin) VALUES ($id, $name, NOW())");
-        // $statementAddAbonnee->execute();
-        // header('Location: successful.php');
     }
 
 ?>
