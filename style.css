@@ -212,3 +212,6 @@ label {
   background-color: #70a1ff;
   color: var(--text-color-light);
 }
+.textError {
+  color: var(--danger);
+}

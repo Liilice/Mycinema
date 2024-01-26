@@ -81,6 +81,9 @@
                     <?php foreach($resultatFiltre as $key => $value):?>
                         <li class="li">
                             <span><?=$value["firstname"]." ".$value["lastname"]." ".$value["name"] ?></span>
+                            <a href="addMovieAbonner.php?id=<?= $value['id']?>">
+                                <button class="btn">Ajouter un film</button>
+                            </a>
                             <a href="abonnement.php?id=<?= $value['id']  ?>">
                                 <button class="btn">Historique</button>
                             </a>
