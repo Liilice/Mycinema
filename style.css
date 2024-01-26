@@ -134,9 +134,11 @@ span {
 }
 input {
   width: 25rem;
+  padding: 0.5rem;
 }
 select {
   width: 25rem;
+  padding: 0.6rem;
 }
 label {
   font-size: 1.5rem;
@@ -188,4 +190,25 @@ label {
   color: var(--text-color-light);
 }
 .stylePagination {
+  border: 1px solid black;
+  font-size: 2rem;
+}
+.pagination {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.pagination a {
+  font-size: 1.3rem;
+  border: 1px solid var(--text-color-light);
+  border-radius: 1rem 10rem / 12rem;
+  padding: 0.7rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--box-shadow);
+}
+.active {
+  background-color: #70a1ff;
+  color: var(--text-color-light);
 }

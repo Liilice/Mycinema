@@ -1,7 +1,7 @@
 <?php
     $pdo = require_once("database.php");
     $films = $_GET['films'];
-    $parPage = 5;
+    $parPage = 10;
     $page = $_GET["page"] ? $_GET["page"] : 1;
     $start = ($page - 1)*$parPage;
 
@@ -49,13 +49,12 @@
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <div id="pagination">
+            <div class="pagination">
                 <?php for($i = 1; $i <= $pages; $i++):?>
                     <?php if(!empty($_GET["films"])):?>
                         <?php $url = "?films=".$films."&page=".$i?> 
                     <?php endif; ?>
-                    <?php $stylePagination = ($i==$page)?"active":"";?>
-                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                    <a href="<?=$url?>" class="<?=($i==$page)?"active":""?>"><?=$i?></a>
                 <?php endfor;?>
             </div>
         </div>

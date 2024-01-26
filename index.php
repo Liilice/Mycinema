@@ -70,46 +70,45 @@
         </select>
         <input type="search" name="distributor" placeholder="distributor">
         <!-- <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" /> -->
-        <input type="submit" />
+        <input type="submit" value="Rechercher"/>
     </form>
-        <main class="container">
-            <div class="containerIndex">
-                <div>
-                    <h2>Titre</h2>
-                    <ul>
-                        <?php foreach($resultatFiltre as $key => $value):?>
-                            <li class="li"><?=$value["title"]?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Genre</h2>
-                    <ul>
-                        <?php foreach($resultatFiltre as $key => $value):?>
-                            <li class="li"><?=$value[1]?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Distributor</h2>
-                    <ul>
-                        <?php foreach($resultatFiltre as $key => $value):?>
-                            <li class="li"><?=$value["name"]?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+    <main class="container">
+        <div class="containerIndex">
+            <div>
+                <h2>Titre</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value["title"]?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
-            <div id="pagination">
-                <?php for($i = 1; $i <= $pages; $i++):?>
-                    <?php if($_GET["rechercher"]||$_GET["search"]||$_GET["distributor"]):?>
-                        <?php $url = "?rechercher=".$rechercher."&genre=".$search."&distributor=".$distributor."&page=".$i?> 
-                    <?php else:?>
-                        <?php $url = "?page=".$i;?>
-                    <?php endif; ?>
-                    <?php $stylePagination = ($i==$page)?"active":"";?>
-                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
-                <?php endfor;?>
+            <div>
+                <h2>Genre</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value[1]?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
-        </main>
+            <div>
+                <h2>Distributor</h2>
+                <ul>
+                    <?php foreach($resultatFiltre as $key => $value):?>
+                        <li class="li"><?=$value["name"]?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <div class="pagination">
+            <?php for($i = 1; $i <= $pages; $i++):?>
+                <?php if($_GET["rechercher"]||$_GET["search"]||$_GET["distributor"]):?>
+                    <?php $url = "?rechercher=".$rechercher."&genre=".$search."&distributor=".$distributor."&page=".$i?> 
+                <?php else:?>
+                    <?php $url = "?page=".$i;?>
+                <?php endif; ?>
+                <a href="<?=$url?>" class="<?=($i==$page)?"active":""?>"><?=$i?></a>
+            <?php endfor;?>
+        </div>
+    </main>
 </body>
 </html>

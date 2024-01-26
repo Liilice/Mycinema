@@ -26,8 +26,6 @@
     }
 
     $limitPage = 10;
-    // $currentPage = $_GET["page"] ? $_GET["page"] : 1;
-    // $debut = ($page - 1)*$parPage;
     $id = $_GET['id']; 
     if(isset($id) && $id !== ""){
         $countAbonnerHistoriq = $pdo->query("
@@ -134,13 +132,12 @@
                     <?php endforeach; ?>
                 </ul>
             </div>
-            <div id="pagination">
+            <div class="pagination">
                 <?php for($i = 1; $i <= $pages; $i++):?>
                     <?php if($_GET["id"]):?>
                         <?php $url = "?id=".$_GET["id"]."&page=".$i?> 
                     <?php endif; ?>
-                    <?php $stylePagination = ($i==$page)?"active":"";?>
-                    <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                    <a href="<?=$url?>" class="<?=($i==$page)?"active":""?>"><?=$i?></a>
                 <?php endfor;?>
             </div>
         </div>

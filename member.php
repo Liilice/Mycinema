@@ -52,13 +52,12 @@
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div id="pagination">
+        <div class="pagination">
             <?php for($i = 1; $i <= $pages; $i++):?>
                 <?php if(!empty($_GET["member"])):?>
                     <?php $url = "?member=".$member."&page=".$i?> 
                 <?php endif; ?>
-                <?php $stylePagination = ($i==$page)?"active":"";?>
-                <a href="<?=$url?>" class="<?=$stylePagination?>"><?=$i?></a>
+                <a href="<?=$url?>" class="<?=($i==$page)?"active":""?>"><?=$i?></a>
             <?php endfor;?>
         </div>
     </main>
