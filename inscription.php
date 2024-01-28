@@ -32,12 +32,6 @@
         $city = $_POST["city"];
         $country = $_POST["country"];
 
-        $statementUser = $pdo->prepare("
-            INSERT INTO user(email, firstname, lastname, birthdate, address, zipcode, city, country)
-            VALUES('$email', '$prenom', '$nom', '$birthdate', '$address', '$zipcode', '$city', '$country')");
-        $statementUser->execute();
-        header('Location: successful.php');
-
         if (!$nom)  {
             $error['nom'] = ERROR_REQUIRED; 
         }
@@ -61,7 +55,14 @@
         }
         if (!$country)  {
             $error['country'] = ERROR_REQUIRED; 
-        }        
+        }  
+        if(!empty($nom)&&!empty($prenom)&&!empty($email)&&!empty($birthdate)&&!empty($address)&&!empty($zipcode)&&!empty($city)&&!empty($country)){
+            $statementUser = $pdo->prepare("
+                INSERT INTO user(email, firstname, lastname, birthdate, address, zipcode, city, country)
+                VALUES('$email', '$prenom', '$nom', '$birthdate', '$address', '$zipcode', '$city', '$country')");
+            $statementUser->execute();
+            header('Location: successful.php');
+        }      
     }
 ?>
 
