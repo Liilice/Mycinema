@@ -34,19 +34,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/96249701bf.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>My Cinema - Site de référencement des films</h1>
-    <div class="containerLink">
-        <h2><a href="index.php">Films</a></h2>
-        <h2><a href="projection.php">Projection</a></h2>
-        <h2><a href="member.php">Clients</a></h2>
-        <h2><a href="abonnement.php">Abonnement</a></h2>
-        <h2><a href="admin.php">Admin</a></h2>
-    </div>
+    <header>
+        <img src="/image/cinemaLogo.png" alt="logo">
+        <ul class="containerLink">
+            <li>
+                <a href="index.php"><i class="fa-solid fa-film"></i></a>
+                <h2><a href="index.php">Films</a></h2>
+            </li>
+            <li>
+                <a href="projection.php"><i class="fa-solid fa-video"></i></a>
+                <h2><a href="projection.php">Projection</a></h2>
+            </li>
+            <li>
+                <a href="member.php"><i class="fa-regular fa-user"></i></a>
+                <h2><a href="member.php">Clients</a></h2>
+            </li>
+            <li>
+                <a href="abonnement.php"><i class="fa-solid fa-user-plus"></i></a>
+                <h2><a href="abonnement.php">Abonnement</a></h2>
+            </li>
+            <li>
+                <a href="admin.php"><i class="fa-solid fa-user-gear"></i></a>
+                <h2><a href="admin.php">Admin</a></h2>
+            </li>
+        </ul>
+    </header>
     <form action="" method="get">
-        <input type="search" placeholder="rechercher" name="rechercher">
+        <input type="search" placeholder="Film" name="rechercher">
         <select name="genre" id="genre">
             <option value="defaut">Defaut</option>
             <?php foreach($resultat as $key => $value):?>
@@ -55,8 +73,7 @@
             <?php endforeach; ?>
             <?php endforeach; ?>
         </select>
-        <input type="search" name="distributor" placeholder="distributor">
-        <!-- <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" /> -->
+        <input type="search" name="distributor" placeholder="Distributor">
         <input type="submit" value="Rechercher"/>
     </form>
     <main class="container">
@@ -97,5 +114,24 @@
             <?php endfor;?>
         </div>
     </main>
+    <footer>
+        <ul class="containerFooter">
+            <li>
+                <a href="inscription.php"><i class="fa-solid fa-right-to-bracket"></i></a>
+                <h2><a href="inscription.php">S'inscrire</a></h2>
+            </li>
+            <li>
+                <a href="recrutement.php"><i class="fa-solid fa-user-group"></i></a>
+                <h2><a href="recrutement.php">Recrutement</a></h2>
+            </li>
+        </ul>
+        <!-- <ul class="socialMedia">
+            <li><i class="fa-brands fa-facebook"></i></li>
+            <li><i class="fa-brands fa-x-twitter"></i></li>
+            <li><i class="fa-brands fa-instagram"></i></li>
+            <li><i class="fa-brands fa-tiktok"></i></li>
+            <li><i class="fa-brands fa-youtube"></i></li>
+        </ul> -->
+    </footer>
 </body>
 </html>

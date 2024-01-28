@@ -53,12 +53,17 @@ a {
 }
 
 img {
-  max-width: 100%;
-  height: auto;
-  padding-right: 1.5rem;
+  width: 15%;
 }
 form {
   margin: 1rem 0rem 2rem 0rem;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-betweena;
+  align-items: center;
+  padding: 2rem 0rem;
 }
 .containerLink {
   display: flex;
@@ -214,4 +219,15 @@ label {
 }
 .textError {
   color: var(--danger);
+}
+.containerFooter {
+  margin: 2rem 0rem;
+  padding: 2rem 0rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.containerFooter h2 a {
+  margin: 0rem 4rem;
 }

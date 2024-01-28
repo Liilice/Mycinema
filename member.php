@@ -14,7 +14,6 @@
         $statement->execute();
         $resultatFiltre = $statement->fetchAll();
     }
-    
 ?>
 
 <!DOCTYPE html>
@@ -22,22 +21,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/96249701bf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>My Cinema - Site de référencement des clients</h1>
-    <div class="containerLink">
-        <h2><a href="index.php">Films</a></h2>
-        <h2><a href="projection.php">Projection</a></h2>
-        <h2><a href="member.php">Clients</a></h2>
-        <h2><a href="abonnement.php">Abonnement</a></h2>
-        <h2><a href="admin.php">Admin</a></h2>
-    </div>
+    <header>
+        <img src="/image/cinemaLogo.png" alt="logo">
+        <ul class="containerLink">
+            <li>
+                <a href="index.php"><i class="fa-solid fa-film"></i></a>
+                <h2><a href="index.php">Films</a></h2>
+            </li>
+            <li>
+                <a href="projection.php"><i class="fa-solid fa-video"></i></a>
+                <h2><a href="projection.php">Projection</a></h2>
+            </li>
+            <li>
+                <a href="member.php"><i class="fa-regular fa-user"></i></a>
+                <h2><a href="member.php">Clients</a></h2>
+            </li>
+            <li>
+                <a href="abonnement.php"><i class="fa-solid fa-user-plus"></i></a>
+                <h2><a href="abonnement.php">Abonnement</a></h2>
+            </li>
+            <li>
+                <a href="admin.php"><i class="fa-solid fa-user-gear"></i></a>
+                <h2><a href="admin.php">Admin</a></h2>
+            </li>
+        </ul>
+    </header>
     <form action="" method="get">
         <input type="search" name="member" placeholder="member">
-        <!-- <input type="date" name="dateProjection" min="2018-01-01" max="2018-12-31" /> -->
-        <input type="submit" hidden />
+        <input type="submit" value="Rechercher"/>
     </form>
     <main class="containerMember">
         <div>

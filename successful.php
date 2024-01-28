@@ -16,6 +16,12 @@
             <a href="index.php">
                 <button class="btn">Accueil</button>
             </a>
+            <a href="member.php">
+                <button class="btn">Membre</button>
+            </a>
+            <a href="abonnement.php">
+                <button class="btn">Abonner</button>
+            </a>
         </main>
     </section>
 </body>
